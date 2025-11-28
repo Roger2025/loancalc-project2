@@ -95,6 +95,28 @@
     </div>
   </form>
   <div id="result" style="margin-top: 20px;"></div>
+
+  <table id="resultTable">
+
+    <thead>
+      <tr>
+        <th>期數</th>
+        <th>攤還本金</th>
+        <th>攤還利息</th>
+        <th>月付金</th>
+        <th>貸款餘額</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+
+      </tr>
+    </tbody>
+  </table>
+
+
+
+
 </body>
 
 
@@ -103,13 +125,16 @@
   const rateEl = document.querySelector('#rate');
   const timeEl = document.querySelector('#time');
   const calcEl = document.querySelector('#calc');
+  const resultEl = document.querySelector('#result');
+  const resultTableEl = document.querySelector('#resultTable tbody');
 
-  console.log(principalEl, rateEl, timeEl, calcEl);
+
+  console.log(principalEl, rateEl, timeEl, calcEl, resultEl, resultTableEl);
 
   function reset() {
-    principalEl.innerHTML = '';
-    rateEl.innerHTML = '';
-    timeEl.innerHTML = '';
+    principalEl.value = '';
+    rateEl.value = '';
+    timeEl.value = '';
   }
 
   calcEl.addEventListener("click", () => {
@@ -125,10 +150,8 @@
 
     // 1.計算每個月應還本金
     let month_pay = Math.round(principal / months);
-
-
+    let tempHtml = "";
     console.log(principal, rate, time, months, moth_rate, month_pay);
-
 
     for (let i = 0; i < months; i++) {
       //計算每個月利息
@@ -136,13 +159,17 @@
       //本金減去每個月應還本金
       principal -= month_pay;
       //每月應還(本金+利息),剩餘貸款
-      if (i == months - 1) {
-        principal = 0; console.log(i + 1, month_pay, interest, month_pay + interest + principal, 0);
-      } else {
-        console.log(i + 1, month_pay, interest, month_pay + interest, principal);
-      }
-    }
 
+
+      tempHtml += "<tr>";
+      if (i == months - 1) {
+        tempHtml = `<td>${i + 1}</td><td>${month_pay}</td><td>${interest}</td><td>${month_pay + interest + principal}</td><td>${0}</td>`;
+      } else {
+        tempHtml = `<td>${i + 1}</td><td>${month_pay}</td><td>${interest}</td><td>${month_pay + interest}</td><td>${principal}</td>`;
+        tempHtml += "</tr>";
+      }
+      resultTableEl.innerHTML += tempHtml;
+    }
   })
 
 
