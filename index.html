@@ -73,6 +73,26 @@
     thead {
       background-color: #f2f2f2;
     }
+
+    #tableContainer {
+      max-height: 400px;
+      overflow-y: auto;
+      border: 1px solid black;
+      width: 60%;
+      margin: 0 auto;
+    }
+
+    @media screen and (max-width: 1024px) {
+      #tableContainer {
+        width: 80%;
+      }
+    }
+
+    @media screen and (max-width: 600px) {
+      #tableContainer {
+        width: 100%;
+      }
+    }
   </style>
 </head>
 
@@ -81,38 +101,23 @@
 
   <form action="">
     <label for="principal">本金 (元):</label>
-    <input type="number" id="principal" name="principal" value="1000000" required>
+    <input type="number" value="1000000" id="principal" name="principal" required placeholder="例:1000000">
     <br>
     <label for="rate">年利率 (%):</label>
-    <input type="number" id="rate" name="rate" step="0.01" value="2.5" required>
+    <input type="number" value="2.5" id="rate" name="rate" step="0.01" required placeholder="例:2.5">
     <br>
     <label for="time">貸款期限 (年):</label>
-    <input type="number" id="time" name="time" value="20" required>
+    <input type="number" value="20" id="time" name="time" required placeholder="例:20">
     <br>
     <div class="buttons">
       <button type="button" id="calc">計算利息</button>
-      <button type="button" onclick="reset()">重置輸入</button>
+      <button type="button" onclick="reset_input()">重置輸入</button>
     </div>
   </form>
-  <div id="result" style="margin-top: 20px;"></div>
+  <div id="result" style="margin-top: 20px;">
 
-  <table id="resultTable">
+  </div>
 
-    <thead>
-      <tr>
-        <th>期數</th>
-        <th>攤還本金</th>
-        <th>攤還利息</th>
-        <th>月付金</th>
-        <th>貸款餘額</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-
-      </tr>
-    </tbody>
-  </table>
 
 
 
@@ -121,57 +126,52 @@
 
 
 <script>
-  const principalEl = document.querySelector('#principal');
-  const rateEl = document.querySelector('#rate');
-  const timeEl = document.querySelector('#time');
-  const calcEl = document.querySelector('#calc');
-  const resultEl = document.querySelector('#result');
-  const resultTableEl = document.querySelector('#resultTable tbody');
+  let principallm = document.querySelector("#principal");
+  let ratelm = document.querySelector("#rate");
+  let timelm = document.querySelector("#time");
+  let resultlm = document.querySelector("#result");
+  let calclm = document.querySelector("#calc");
 
+  console.log(principallm, ratelm, timelm, resultlm, calclm);
 
-  console.log(principalEl, rateEl, timeEl, calcEl, resultEl, resultTableEl);
+  function reset_input() {
+    principallm.value = "";
+    ratelm.value = "";
+    timelm.value = "";
 
-  function reset() {
-    principalEl.value = '';
-    rateEl.value = '';
-    timeEl.value = '';
   }
 
-  calcEl.addEventListener("click", () => {
-    let principal = principalEl.value;
-    let rate = rateEl.value;
-    let time = timeEl.value;
+  calclm.addEventListener("click", () => {
 
-    //還款月數
+    let principal = principallm.value;
+    let rate = ratelm.value;
+    let time = timelm.value;
+    console.log(principal, rate, time);
+
+    // 總還款月數
     let months = time * 12;
-    //月利率
+    // 月利率
     let moth_rate = rate / 100 / 12;
 
-
-    // 1.計算每個月應還本金
+    // 計算每個月應還本金
     let month_pay = Math.round(principal / months);
-    let tempHtml = "";
-    console.log(principal, rate, time, months, moth_rate, month_pay);
+    console.log(month_pay);
 
     for (let i = 0; i < months; i++) {
-      //計算每個月利息
+      // 計算每個月利息
       let interest = Math.round(principal * moth_rate);
-      //本金減去每個月應還本金
+      // 本金減去每月還款金額
       principal -= month_pay;
-      //每月應還(本金+利息),剩餘貸款
-
-
-      tempHtml += "<tr>";
+      // 每月應還(本金+利息),剩餘貸款
       if (i == months - 1) {
-        tempHtml = `<td>${i + 1}</td><td>${month_pay}</td><td>${interest}</td><td>${month_pay + interest + principal}</td><td>${0}</td>`;
+        console.log(i + 1, month_pay, interest, month_pay + interest + principal, 0);
       } else {
-        tempHtml = `<td>${i + 1}</td><td>${month_pay}</td><td>${interest}</td><td>${month_pay + interest}</td><td>${principal}</td>`;
-        tempHtml += "</tr>";
+        console.log(i + 1, month_pay, interest, month_pay + interest, principal);
       }
-      resultTableEl.innerHTML += tempHtml;
     }
-  })
 
+
+  })
 
 </script>
 
