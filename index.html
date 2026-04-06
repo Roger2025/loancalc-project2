@@ -74,10 +74,16 @@
       background-color: #f2f2f2;
     }
 
+    #displayResult {
+      font-size: 20px;
+      font-weight: bold;
+      background-color: rgb(255, 255, 255);
+      margin-bottom: 10px;
+    }
+
     #tableContainer {
       max-height: 400px;
       overflow-y: auto;
-      border: 1px solid black;
       width: 60%;
       margin: 0 auto;
     }
@@ -116,19 +122,21 @@
   </form>
   <div id="result" style="margin-top: 20px;">
     <div id="displayResult"></div>
-    <table id="resultTable">
-      <thead>
-        <tr>
-          <th>期數</th>
-          <th>本金</th>
-          <th>利息</th>
-          <th>每月應還</th>
-          <th>剩餘貸款</th>
-        </tr>
-      </thead>
-      <tbody>
-      </tbody>
-    </table>
+    <div id="tableContainer">
+      <table id="resultTable">
+        <thead>
+          <tr>
+            <th>期數</th>
+            <th>本金</th>
+            <th>利息</th>
+            <th>每月應還</th>
+            <th>剩餘貸款</th>
+          </tr>
+        </thead>
+        <tbody>
+        </tbody>
+      </table>
+    </div>
 
   </div>
 
@@ -154,7 +162,8 @@
     principallm.value = "";
     ratelm.value = "";
     timelm.value = "";
-
+    displayResultlm.innerHTML = "";
+    resultTablelm.innerHTML = "";
   }
 
   calclm.addEventListener("click", () => {
@@ -195,8 +204,6 @@
     result = `貸款金額:${principal_sum},總利息支出:${interest_sum},總還款金額:${interest_sum + principal_sum}`;
     displayResultlm.innerHTML = result;
     resultTablelm.innerHTML = tempHtml;
-
-
   })
 
 </script>
