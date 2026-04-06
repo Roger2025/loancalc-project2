@@ -115,6 +115,19 @@
     </div>
   </form>
   <div id="result" style="margin-top: 20px;">
+    <table id="resultTable">
+      <thead>
+        <tr>
+          <th>期數</th>
+          <th>本金</th>
+          <th>利息</th>
+          <th>每月應還</th>
+          <th>剩餘貸款</th>
+        </tr>
+      </thead>
+      <tbody>
+      </tbody>
+    </table>
 
   </div>
 
@@ -131,6 +144,7 @@
   let timelm = document.querySelector("#time");
   let resultlm = document.querySelector("#result");
   let calclm = document.querySelector("#calc");
+  let resultTablelm = document.querySelector("#resultTable tbody");
 
   console.log(principallm, ratelm, timelm, resultlm, calclm);
 
@@ -156,19 +170,23 @@
     // 計算每個月應還本金
     let month_pay = Math.round(principal / months);
     console.log(month_pay);
-
+    let tempHtml = "";
     for (let i = 0; i < months; i++) {
       // 計算每個月利息
       let interest = Math.round(principal * moth_rate);
       // 本金減去每月還款金額
       principal -= month_pay;
       // 每月應還(本金+利息),剩餘貸款
+      tempHtml += "<tr>";
       if (i == months - 1) {
+        tempHtml += `<td>${i + 1}</td><td>${month_pay}</td><td>${interest}</td><td>${month_pay + interest + principal}</td><td>${0}</td>`;
         console.log(i + 1, month_pay, interest, month_pay + interest + principal, 0);
       } else {
-        console.log(i + 1, month_pay, interest, month_pay + interest, principal);
+        tempHtml += `<td>${i + 1}</td><td>${month_pay}</td><td>${interest}</td><td>${month_pay + interest}</td><td>${principal}</td>`;
       }
+      tempHtml += `</tr>`;
     }
+    resultTablelm.innerHTML += tempHtml;
 
 
   })
