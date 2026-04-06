@@ -115,6 +115,7 @@
     </div>
   </form>
   <div id="result" style="margin-top: 20px;">
+    <div id="displayResult"></div>
     <table id="resultTable">
       <thead>
         <tr>
@@ -145,6 +146,7 @@
   let resultlm = document.querySelector("#result");
   let calclm = document.querySelector("#calc");
   let resultTablelm = document.querySelector("#resultTable tbody");
+  let displayResultlm = document.querySelector("#displayResult");
 
   console.log(principallm, ratelm, timelm, resultlm, calclm);
 
@@ -171,9 +173,13 @@
     let month_pay = Math.round(principal / months);
     console.log(month_pay);
     let tempHtml = "";
+    let result = "";
+    let interest_sum = 0;
+    let principal_sum = parseInt(principal);
     for (let i = 0; i < months; i++) {
       // 計算每個月利息
       let interest = Math.round(principal * moth_rate);
+      interest_sum += interest;
       // 本金減去每月還款金額
       principal -= month_pay;
       // 每月應還(本金+利息),剩餘貸款
@@ -186,7 +192,9 @@
       }
       tempHtml += `</tr>`;
     }
-    resultTablelm.innerHTML += tempHtml;
+    result = `貸款金額:${principal_sum},總利息支出:${interest_sum},總還款金額:${interest_sum + principal_sum}`;
+    displayResultlm.innerHTML = result;
+    resultTablelm.innerHTML = tempHtml;
 
 
   })
